@@ -9,7 +9,7 @@ import CardContainer from "@/components/ui/CardContainer";
 // API function to fetch recent products
 async function getRecentProducts() {
     try {
-        const res = await fetch('http://localhost:5000/api/products/recent', {
+        const res = await fetch('https://gadget-verse-backend.vercel.app/api/products/recent', {
             cache: 'no-store',
         });
 

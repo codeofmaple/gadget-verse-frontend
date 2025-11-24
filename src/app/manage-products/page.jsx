@@ -8,7 +8,7 @@ import Image from 'next/image';
 // API functions
 async function getProducts() {
     try {
-        const res = await fetch('http://localhost:5000/api/products', {
+        const res = await fetch('https://gadget-verse-backend.vercel.app/api/products', {
             cache: 'no-store',
         });
         if (!res.ok) throw new Error('Failed to fetch products');
@@ -21,7 +21,7 @@ async function getProducts() {
 
 async function deleteProduct(id) {
     try {
-        const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+        const response = await fetch(`https://gadget-verse-backend.vercel.app/api/products/${id}`, {
             method: 'DELETE',
         });
         if (!response.ok) throw new Error('Failed to delete product');

@@ -12,7 +12,7 @@ async function getProductsAPI(filters = {}) {
         if (filters.category && filters.category !== "all") params.append("category", filters.category);
         if (filters.search) params.append("search", filters.search);
 
-        const url = `http://localhost:5000/api/products${params.toString() ? `?${params.toString()}` : ""}`;
+        const url = `https://gadget-verse-backend.vercel.app/api/products${params.toString() ? `?${params.toString()}` : ""}`;
         const res = await fetch(url, { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();

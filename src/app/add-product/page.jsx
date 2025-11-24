@@ -44,7 +44,7 @@ export default function AddProductPage() {
                 createdAt: new Date().toISOString()
             };
 
-            const response = await fetch('http://localhost:5000/api/products', {
+            const response = await fetch('https://gadget-verse-backend.vercel.app/api/products', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(productData),

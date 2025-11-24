@@ -4,7 +4,7 @@ import Button from '../../../components/ui/Button';
 
 async function getProductById(id) {
     try {
-        const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+        const res = await fetch(`https://gadget-verse-backend.vercel.app/api/products/${id}`, {
             cache: 'no-store',
         });
 
@@ -268,7 +268,7 @@ export default async function ProductDetail({ params }) {
 
 export async function generateStaticParams() {
     try {
-        const res = await fetch('http://localhost:5000/api/products');
+        const res = await fetch('https://gadget-verse-backend.vercel.app/api/products');
         if (!res.ok) return [];
         const products = await res.json();
         return products.map((product) => ({ id: product._id.toString() }));
