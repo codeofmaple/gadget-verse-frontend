@@ -103,47 +103,21 @@ export default function ProductsPage() {
                     </div>
                 ) : (
                     <>
-                        {products.length > 0 ? (
-                            <>
-                                <div className="mb-4 text-gray-600">
-                                    Showing {products.length} product{products.length !== 1 ? "s" : ""}
-                                    {search && ` for "${search}"`}
-                                    {category !== "all" && ` in ${category}`}
-                                </div>
-
-                                <CardContainer cols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" gap="gap-6">
-                                    {products.map((p) => (
-                                        <ProductCard key={p._id} product={p} />
-                                    ))}
-                                </CardContainer>
-                            </>
-                        ) : (
-                            <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-200">
-                                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
-                                    <span className="text-3xl">📦</span>
-                                </div>
-                                <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-2">No Products Found</h3>
-                                <p className="text-gray-600 mb-6">
-                                    {search || category !== "all" ? "Try adjusting your search criteria." : "No products available."}
-                                </p>
-
-                                {(search || category !== "all") ? (
-                                    <Button
-                                        variant="secondary"
-                                        onClick={() => {
-                                            setSearch("");
-                                            setCategory("all");
-                                        }}
-                                    >
-                                        Clear Filters
-                                    </Button>
-                                ) : (
-                                    <Link href="/add-product" className="inline-block">
-                                        <Button variant="primary">Add Product</Button>
-                                    </Link>
-                                )}
+                        (
+                        <>
+                            <div className="mb-4 text-gray-600">
+                                Showing {products.length} product{products.length !== 1 ? "s" : ""}
+                                {search && ` for "${search}"`}
+                                {category !== "all" && ` in ${category}`}
                             </div>
-                        )}
+
+                            <CardContainer cols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" gap="gap-6">
+                                {products.map((p) => (
+                                    <ProductCard key={p._id} product={p} />
+                                ))}
+                            </CardContainer>
+                        </>
+                        )
                     </>
                 )}
             </div>
