@@ -1,19 +1,20 @@
 import Link from 'next/link';
-import Button from '../components/ui/Button';
 import Image from 'next/image';
 import HeroSection from '@/components/homePage/HeroSection';
 import FeaturesSection from '@/components/homePage/FeaturesSection';
 import ProductCard from "@/components/cards/ProductCard";
 import CardContainer from "@/components/ui/CardContainer";
 
-// API function to fetch recent products
+const API_URL = 'https://gadget-verse-backend.vercel.app';
+
 async function getRecentProducts() {
     try {
-        const res = await fetch('https://gadget-verse-backend.vercel.app/api/products/recent', {
-            cache: 'no-store',
+        const res = await fetch(`${API_URL}/api/products/recent`, {
+            cache: 'no-store'
         });
 
         if (!res.ok) {
+            console.error(`Failed to fetch recent products: Status ${res.status}`);
             throw new Error('Failed to fetch products');
         }
 
@@ -24,250 +25,118 @@ async function getRecentProducts() {
     }
 }
 
-// Feature Card Component
-function FeatureCard({ icon, title, description, gradient }) {
-    return (
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 border border-white/50 hover:border-blue-200 hover:scale-105 group">
-            <div className={`w-20 h-20 ${gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                <span className="text-3xl">{icon}</span>
-            </div>
-            <h3 className="text-2xl font-bold text-center mb-4 text-gray-800">{title}</h3>
-            <p className="text-gray-600 text-center leading-relaxed">{description}</p>
-        </div>
-    );
-}
-
-// Testimonial Card Component
-function TestimonialCard({ name, role, content, avatar, color }) {
-    return (
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 border border-white/50 hover:border-blue-200 group">
-            <div className="flex items-center mb-6">
-                <div className={`size-14 ${color} rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                    <span className="text-2xl">{avatar}</span>
-                </div>
-                <div>
-                    <p className="font-bold text-gray-800 text-lg">{name}</p>
-                    <p className="text-gray-500 text-sm">{role}</p>
-                </div>
-            </div>
-            <p className="text-gray-600 leading-relaxed text-lg italic">{content}</p>
-        </div>
-    );
-}
+const SectionHeader = ({ title, subtitle }) => (
+    <div className="text-center mb-16 max-w-2xl mx-auto px-4">
+        <h2 className="text-3xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight">
+            {title}
+        </h2>
+        {subtitle && <p className="text-gray-500 text-lg md:text-xl">{subtitle}</p>}
+    </div>
+);
 
 export default async function HomePage() {
     const featuredProducts = await getRecentProducts();
 
-    const testimonials = [
-        {
-            name: "Sarah Johnson",
-            role: "Tech Enthusiast",
-            content: "Amazing selection of gadgets! Fast shipping and great customer service. Highly recommended!",
-            avatar: "⭐",
-            color: "bg-gradient-to-br from-blue-100 to-blue-200"
-        },
-        {
-            name: "Mike Chen",
-            role: "Gaming Expert",
-            content: "Best prices I've found online. The product quality exceeded my expectations. Will definitely shop here again!",
-            avatar: "🎮",
-            color: "bg-gradient-to-br from-green-100 to-green-200"
-        },
-        {
-            name: "Emma Davis",
-            role: "Student",
-            content: "Great customer support and fast delivery. Found exactly what I was looking for at an affordable price!",
-            avatar: "📚",
-            color: "bg-gradient-to-br from-purple-100 to-purple-200"
-        }
-    ];
-
     return (
-        <div className=' space-y-20'>
-            {/* Hero Section */}
-            <HeroSection></HeroSection>
+        <div className="bg-gray-50/50 overflow-hidden space-y-20">
 
-            {/* Feature Section */}
-            <FeaturesSection></FeaturesSection>
+            {/* 1. HERO */}
+            <div className="relative pt-20">
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                    <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl mix-blend-multiply animate-pulse" />
+                    <div className="absolute top-20 left-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl mix-blend-multiply" />
+                </div>
+                <HeroSection />
+            </div>
 
-            {/* HOt Products Section */}
-            <section className=" bg-white">
+            {/* 2. LOGO CLOUD */}
+            <div className="border-y border-gray-100 bg-white/50 backdrop-blur-sm">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-extrabold text-center mb-16 
-                    bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text 
-                    text-transparent
-                     sm:text-4xl md:text-5xl lg:text-5xl leading-tight
-                    ">
-                        🔥 Hot Products
-                    </h2>
+                    <p className="text-center text-sm font-semibold text-gray-400 uppercase tracking-widest mb-6">Trusted by tech lovers everywhere</p>
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+                        {['Sony', 'Apple', 'Samsung', 'Logitech', 'Asus'].map(brand => (
+                            <span key={brand} className="text-xl md:text-2xl font-black font-serif">{brand}</span>
+                        ))}
+                    </div>
+                </div>
+            </div>
 
-                    <>
-                        {/* Hot Products */}
-                        <CardContainer cols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" gap="gap-8" maxW="container mx-auto px-4">
-                            {featuredProducts.map(p => <ProductCard key={p._id} product={p} />)}
-                        </CardContainer>
+            {/* 3. HOT PRODUCTS */}
+            <section className="container mx-auto px-4">
+                <SectionHeader
+                    title="Trending Now"
+                    subtitle="Our latest arrivals and top-selling gadgets selected just for you."
+                />
 
+                {featuredProducts.length > 0 ? (
+                    <CardContainer cols="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" gap="gap-8">
+                        {featuredProducts.map(p => <ProductCard key={p._id} product={p} />)}
+                    </CardContainer>
+                ) : (
+                    <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
+                        <p className="text-gray-500">No products found. Add some from the dashboard!</p>
+                    </div>
+                )}
 
-                        <div className="text-center mt-12">
-                            <Link href="/products">
-                                <Button
-                                    variant="secondary"
-                                    size="lg"
-                                    className="bg-gradient-to-r from-blue-500 to-purple-500 text-white
-                                     hover:from-blue-600 hover:to-purple-600 shadow-lg hover:shadow-xl transform hover:scale-102 
-                                      transition-all transition-transform duration-300"
-                                >
-                                    View All Products
-                                </Button>
-                            </Link>
-                        </div>
-                    </>
+                <div className="text-center mt-16">
+                    <Link href="/products" className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-gray-900 border border-transparent rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:shadow-xl hover:-translate-y-1">
+                        View All Products
+                    </Link>
                 </div>
             </section>
 
-            {/* Statistics Section */}
-            <section className="bg-gradient-to-br py-20 from-blue-50 to-purple-50 relative">
-                <div className="container mx-auto px-4">
+            {/* 4. FEATURES */}
+            <section className=" bg-white relative">
+                <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10" />
+                <FeaturesSection />
+            </section>
 
-                    {/* Title */}
-                    <h2
-                        className="
-                text-3xl font-extrabold text-center mb-16
-                bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text
-                text-transparent
-                sm:text-4xl md:text-5xl lg:text-5xl leading-tight
-            "
-                    >
-                        Why Shop With Us?
-                    </h2>
-
-                    {/* Stats Grid */}
-                    <div
-                        className="
-                grid grid-cols-2 md:grid-cols-4 
-                gap-10 max-w-4xl mx-auto
-            "
-                    >
+            {/* 5. STATS */}
+            <section className="py-20 bg-gray-900 text-white relative overflow-hidden">
+                <div className="absolute inset-0 bg-blue-600/10" />
+                <div className="container mx-auto px-4 relative z-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/10">
                         {[
-                            { value: `${featuredProducts.length}+`, label: "Products" },
-                            { value: `${new Set(featuredProducts.map(p => p.category)).size}+`, label: "Categories" },
-                            { value: `$${Math.min(...featuredProducts.map(p => p.price))}`, label: "Starting From" },
-                            { value: "24/7", label: "Support" },
-                        ].map((stat, index) => (
-                            <div key={index} className="text-center group">
-                                <div
-                                    className="
-                            text-5xl font-extrabold mb-3
-                            bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent
-                            group-hover:scale-110 transition-transform duration-300
-                        "
-                                >
-                                    {stat.value}
-                                </div>
-
-                                <div className="text-gray-700 font-medium text-lg tracking-wide">
-                                    {stat.label}
-                                </div>
+                            { val: "2k+", label: "Products" },
+                            { val: "500+", label: "Happy Clients" },
+                            { val: "24/7", label: "Support" },
+                            { val: "99%", label: "Satisfaction" },
+                        ].map((s, i) => (
+                            <div key={i} className="p-4">
+                                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-2">{s.val}</div>
+                                <div className="text-gray-400 text-sm tracking-wider uppercase">{s.label}</div>
                             </div>
                         ))}
                     </div>
-
                 </div>
             </section>
 
-
-            {/* Testimonials Section */}
-            <section className="bg-white relative">
+            {/* 6. CTA BANNER */}
+            <section className="pb-20">
                 <div className="container mx-auto px-4">
+                    <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-16 md:px-16 md:py-24 text-center shadow-2xl">
 
-                    {/* Title */}
-                    <h2
-                        className="
-                text-3xl font-extrabold text-center mb-16 
-                bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text 
-                text-transparent
-                sm:text-4xl md:text-5xl lg:text-5xl leading-tight
-            "
-                    >
-                        What Our Customers Say
-                    </h2>
+                        {/* circles */}
+                        <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2" />
+                        <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2" />
 
-                    {/* Testimonials Grid */}
-                    <div
-                        className="
-                grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 
-                gap-8
-            "
-                    >
-                        {testimonials.map((testimonial, index) => (
-                            <TestimonialCard key={index} {...testimonial} />
-                        ))}
-                    </div>
-
-                </div>
-            </section>
-
-
-            {/* CTA Banner */}
-            <section className="bg-gradient-to-r py-20 from-blue-600 via-purple-600 to-blue-800 text-white relative">
-                <div className="container mx-auto px-4 text-center">
-
-                    {/* Title */}
-                    <h2
-                        className="
-                text-3xl font-extrabold text-center mb-6
-                bg-gradient-to-r from-white to-gray-200 bg-clip-text
-                text-transparent
-                sm:text-4xl md:text-5xl lg:text-5xl leading-tight
-            "
-                    >
-                        Ready to Explore?
-                    </h2>
-
-                    {/* Subtitle */}
-                    <p className="text-lg sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed text-white/90">
-                        Join {featuredProducts.length * 50}+ satisfied customers and discover amazing tech today.
-                    </p>
-
-                    {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-
-                        <Link href="/products">
-                            <Button
-                                variant="secondary"
-                                size="lg"
-                                className="
-                        bg-white text-blue-700
-                        shadow-xl
-                        transform hover:scale-102
-                        transition-all transition-transform
-                        font-semibold
-                    "
-                            >
-                                🛍️ Browse Products
-                            </Button>
-                        </Link>
-
-                        <Link href="/register">
-                            <Button
-                                variant="primary"
-                                size="lg"
-                                className="
-                        border border-white/70
-                        text-white hover:scale-102 transition-transform
-                        hover:bg-white/10
-                        backdrop-blur-sm
-                        font-semibold
-                    "
-                            >
-                                ✨ Create Account
-                            </Button>
-                        </Link>
-
+                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight relative z-10">
+                            Ready to upgrade your setup?
+                        </h2>
+                        <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto mb-10 relative z-10">
+                            Join thousands of tech enthusiasts who trust GadgetVerse for their daily drivers.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+                            <Link href="/products" className="px-8 py-4 bg-white text-blue-700 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                                Start Shopping
+                            </Link>
+                            <Link href="/register" className="px-8 py-4 bg-transparent border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+                                Create Account
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>
-
         </div>
     );
 }
