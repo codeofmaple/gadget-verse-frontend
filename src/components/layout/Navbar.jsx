@@ -1,8 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
 
 // Down icon
 const ChevronDown = (props) => (
@@ -29,7 +30,6 @@ export default function Navbar() {
     const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
 
     // ROUTES
     const navigation = [
@@ -39,13 +39,6 @@ export default function Navbar() {
         { name: 'FAQ', href: '/faq' },
         { name: 'Support', href: '/contact' },
     ];
-
-    // control scrooling
-    useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     const isActiveRoute = (path) => {
         if (path === '/') return pathname === path;
@@ -57,6 +50,7 @@ export default function Navbar() {
         try {
             await logout();
             setIsMobileMenuOpen(false);
+            toast.success("Successfully logged-out");
             router.push('/');
             router.refresh();
         } catch (error) {
@@ -71,17 +65,12 @@ export default function Navbar() {
     const userInitials = user ? getUserInitials(user) : '';
 
     return (
-        <nav
-            className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled
-                ? 'bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-xl py-1.5'
-                : 'bg-white/70 backdrop-blur-lg border-b border-transparent py-2'
-                }`}
-        >
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="sticky top-0 w-full z-50 bg-white border-b border-gray-100 shadow-md">
+            <div className="container mx-auto px-4 relative">
                 <div className="flex justify-between items-center h-16">
 
                     {/* Logo Area */}
-                    <Link href="/" className="flex items-center space-x-2 group  rounded-lg">
+                    <Link href="/" className="flex items-center space-x-2 group rounded-lg">
                         <div className="relative w-10 h-10 overflow-hidden rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-800 shadow-xl group-hover:shadow-blue-600/50 transition-all duration-500 group-hover:scale-105 flex items-center justify-center">
                             <span className="text-white font-black text-xl">G</span>
                             <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -135,10 +124,10 @@ export default function Navbar() {
                                     </div>
                                     <div className="p-2 space-y-1">
                                         <Link href="/add-product" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors group">
-                                            <span className="mr-3 text-blue-400 group-hover:text-blue-600"></span> + Add Product
+                                            + Add Product
                                         </Link>
                                         <Link href="/manage-products" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors group">
-                                            <span className="mr-3 text-blue-400 group-hover:text-blue-600"></span> Manage Inventory
+                                            Manage Inventory
                                         </Link>
                                         <div className="h-px bg-gray-100 my-2" />
                                         <button
@@ -146,15 +135,14 @@ export default function Navbar() {
                                             disabled={isLoggingOut}
                                             className="w-full text-left flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
                                         >
-                                            <span className="mr-3"></span> {isLoggingOut ? 'Signing Out...' : 'Sign Out'}
+                                            {isLoggingOut ? 'Signing Out...' : 'Sign Out'}
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         ) : (
                             <div className="flex items-center space-x-3">
-                                <Link href="/login" className="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors
-                                 py-2.5 px-3 rounded-full hover:bg-gray-50">
+                                <Link href="/login" className="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors py-2.5 px-3 rounded-full hover:bg-gray-50">
                                     Log In
                                 </Link>
                                 <Link href="/register" className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-full transition-all duration-300 shadow-xl shadow-blue-500/25 transform hover:scale-[1.02]">
@@ -175,7 +163,7 @@ export default function Navbar() {
                 </div>
 
                 {/* Mobile Menu */}
-                <div className={`lg:hidden overflow-hidden transition-all duration-500 ${isMobileMenuOpen ? 'max-h-screen opacity-100 mt-4 pb-4' : 'max-h-0 opacity-0'}`}>
+                <div className={`lg:hidden overflow-hidden absolute w-full pr-8 transition-all duration-500 ${isMobileMenuOpen ? 'max-h-screen opacity-100 mt-4 pb-4' : 'max-h-0 opacity-0'}`}>
                     <div className="bg-white rounded-xl shadow-2xl border border-gray-100 p-3 space-y-1">
                         {navigation.map((item) => (
                             <Link

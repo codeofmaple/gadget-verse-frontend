@@ -74,7 +74,7 @@ export default function HeroSection() {
                     </div>
 
                     {/* Right: Product Visual */}
-                    <div className="lg:col-span-5 flex justify-center lg:justify-end mt-12 lg:mt-0">
+                    <div className="hidden lg:flex lg:col-span-5 justify-center lg:justify-end mt-12 lg:mt-0">
                         <div className="relative w-80 md:w-96 transform hover:scale-[1.01] transition-transform duration-500 cursor-pointer">
                             {/* Enhanced Glass Card */}
                             <div className="rounded-3xl p-6 bg-white/10 backdrop-blur-lg border border-white/30 shadow-2xl shadow-black/40 hover:shadow-white/20 transition-shadow duration-300">

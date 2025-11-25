@@ -1,148 +1,231 @@
-'use client';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Button from '../../components/ui/Button';
-import Link from 'next/link';
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { FiUser, FiMail, FiLock, FiLoader } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
+import Button from "../../components/ui/Button";
 
 export default function RegisterPage() {
     const router = useRouter();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
         setLoading(true);
-        setError('');
 
         try {
-            // Direct API call to your backend
-            const response = await fetch('https://gadget-verse-backend.vercel.app/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email, password }),
-            });
+            const res = await fetch(
+                "https://gadget-verse-backend.vercel.app/api/auth/register",
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password }),
+                }
+            );
+            const data = await res.json();
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Registration failed');
+            if (!res.ok) {
+                throw new Error(data?.error || "Registration failed");
             }
 
-            // Auto-login after successful registration using NextAuth
-            const result = await signIn('credentials', {
+            toast.success("Registration Successful");
+
+            // auto sign-in
+            const result = await signIn("credentials", {
+                redirect: false,
                 email,
                 password,
-                redirect: false,
             });
 
             if (result?.error) {
-                throw new Error('Auto-login failed after registration');
+                toast.error("Auto-login failed. Please sign in manually.");
+                router.push("/login");
+            } else {
+                toast.success("Welcome!");
+                router.push("/");
+                router.refresh();
             }
-
-            router.push('/');
-            router.refresh();
-
         } catch (err) {
-            setError(err.message);
+            setError(err.message || "Something went wrong");
+            toast.error(err.message || "Something went wrong");
         } finally {
             setLoading(false);
         }
     };
 
-    const handleGoogleSignUp = () => {
-        signIn('google', { callbackUrl: '/' });
+    const handleGoogleSignUp = async () => {
+        try {
+            setLoading(true);
+            toast.info("Redirecting to Google...");
+            await signIn("google", { callbackUrl: "/" });
+        } catch (err) {
+            toast.error("Google sign-up failed");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-md">
-            <h1 className="text-3xl font-bold text-center mb-8">Create Account</h1>
-
-            {error && (
-                <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-                    {error}
-                </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium mb-2">Full Name</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
-                        disabled={loading}
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
-                        disabled={loading}
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium mb-2">Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
-                        minLength={6}
-                        disabled={loading}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters</p>
-                </div>
-
-                <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    className="w-full"
-                    disabled={loading}
-                >
-                    {loading ? 'Creating Account...' : 'Create Account'}
-                </Button>
-            </form>
-
-            <div className="my-6 text-center">
-                <div className="border-t border-gray-300 relative">
-                    <span className="bg-white px-3 absolute -top-3 left-1/2 transform -translate-x-1/2 text-gray-500">
-                        OR
-                    </span>
-                </div>
-            </div>
-
-            <Button
-                onClick={handleGoogleSignUp}
-                variant="secondary"
-                size="lg"
-                className="w-full"
-                disabled={loading}
+        <div className="min-h-screen bg-gradient-to-r from-gray-900 via-blue-700 to-indigo-800 flex items-center justify-center p-6">
+            <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.995 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.45 }}
+                className="w-full max-w-md"
             >
-                Sign up with Google
-            </Button>
+                <div className="relative">
+                    {/* Accent glow */}
+                    <div className="absolute -inset-0.5 rounded-2xl blur-xl opacity-20 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
 
-            <p className="text-center mt-4 text-sm text-gray-600">
-                Already have an account?{' '}
-                <Link href="/login" className="text-blue-600 hover:underline">
-                    Login here
-                </Link>
-            </p>
-        </div>
+                    <div className="relative bg-[#071026]/80 border border-[#162033] rounded-2xl shadow-2xl p-8 backdrop-blur-sm">
+                        {/* header */}
+                        <div className="text-center mb-6">
+                            <div className="inline-flex items-center gap-3 justify-center group">
+                                <div className="relative w-10 h-10 overflow-hidden rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-800 shadow-xl  transition-all duration-500 flex items-center justify-center">
+                                    <span className="text-white font-black text-xl">G</span>
+                                    <div className="absolute inset-0 bg-white/20 opacity-0  transition-opacity duration-300 pointer-events-none" />
+                                </div>
+
+                                <div className="text-left">
+                                    <h1 className="text-white text-2xl font-semibold">Create account</h1>
+                                    <p className="text-sm text-gray-300">Start your GadgetVerse journey</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* error */}
+                        {error && (
+                            <div className="bg-red-600/10 border border-red-700/20 text-red-200 px-4 py-2 rounded-md mb-4">
+                                {error}
+                            </div>
+                        )}
+
+                        {/* form */}
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {/* name */}
+                            <div>
+                                <label className="text-sm text-gray-300 mb-2 block">Full name</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <FiUser className="w-5 h-5" />
+                                    </span>
+                                    <input
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        required
+                                        disabled={loading}
+                                        placeholder="Your full name"
+                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* email */}
+                            <div>
+                                <label className="text-sm text-gray-300 mb-2 block">Email</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <FiMail className="w-5 h-5" />
+                                    </span>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        disabled={loading}
+                                        placeholder="you@company.com"
+                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* password */}
+                            <div>
+                                <label className="text-sm text-gray-300 mb-2 block">Password</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <FiLock className="w-5 h-5" />
+                                    </span>
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        minLength={6}
+                                        disabled={loading}
+                                        placeholder="Create a strong password"
+                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                    />
+                                </div>
+                                <p className="text-xs text-gray-400 mt-2">Password must be at least 6 characters</p>
+                            </div>
+
+                            {/* actions */}
+                            <div className="space-y-3">
+                                <Button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full inline-flex items-center justify-center gap-3 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold shadow-lg hover:scale-[1.01] active:scale-99 transition-transform"
+                                >
+                                    {loading ? (
+                                        <>
+                                            <FiLoader className="w-5 h-5 animate-spin" />
+                                            Creating account...
+                                        </>
+                                    ) : (
+                                        "Create account"
+                                    )}
+                                </Button>
+
+                                <div className="text-center">
+                                    <Link href="/login" className="text-sm text-indigo-300 hover:underline">
+                                        Already have an account? Login
+                                    </Link>
+                                </div>
+                            </div>
+                        </form>
+
+                        {/* divider */}
+                        <div className="flex items-center my-6">
+                            <div className="flex-grow h-px bg-[#123045]" />
+                            <span className="px-3 text-sm text-gray-400">Or continue with</span>
+                            <div className="flex-grow h-px bg-[#123045]" />
+                        </div>
+
+                        {/* google */}
+                        <div>
+                            <button
+                                onClick={handleGoogleSignUp}
+                                disabled={loading}
+                                className="w-full py-3 rounded-xl bg-[#0b1320] border border-[#163047] flex items-center justify-center gap-3 text-gray-100 hover:bg-[#0e1726] transition"
+                            >
+                                <FcGoogle className="w-6 h-6" />
+                                <span className="font-medium">Continue with Google</span>
+                            </button>
+                        </div>
+
+                        {/* footer */}
+                        <div className="mt-6 text-center text-gray-400 text-sm">
+                            By creating an account you agree to our{" "}
+                            <Link href="/terms" className="text-indigo-300 hover:underline">
+                                Terms
+                            </Link>
+                            .
+                        </div>
+                    </div>
+                </div>
+            </motion.div >
+        </div >
     );
 }

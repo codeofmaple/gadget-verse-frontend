@@ -50,7 +50,7 @@ export default async function HomePage() {
             </div>
 
             {/* 2. LOGO CLOUD */}
-            <div className="border-y border-gray-100 bg-white/50 backdrop-blur-sm">
+            <div className=" backdrop-blur-sm pt-5">
                 <div className="container mx-auto px-4">
                     <p className="text-center text-sm font-semibold text-gray-400 uppercase tracking-widest mb-6">Trusted by tech lovers everywhere</p>
                     <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">

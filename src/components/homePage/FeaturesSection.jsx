@@ -37,7 +37,7 @@ const defaultFeatures = [
 export default function FeaturesSection({ features = defaultFeatures }) {
     return (
         <section
-            className="relative"
+            className="relative bg-transparent"
             aria-labelledby="features-heading"
             style={{ overflow: "visible" }}
         >

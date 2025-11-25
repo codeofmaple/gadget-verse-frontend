@@ -57,7 +57,9 @@ export default function ProductsPage() {
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold 
+                    bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center
+                    mb-3">
                         All Products
                     </h1>
                     <p className="text-gray-600 text-lg">Discover our collection of tech innovations</p>

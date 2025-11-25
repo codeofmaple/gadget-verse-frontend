@@ -3,11 +3,11 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Button from '../../components/ui/Button';
+import { toast } from 'react-toastify';
 
 export default function AddProductPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
-    const [showToast, setShowToast] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -52,13 +52,14 @@ export default function AddProductPage() {
 
             if (!response.ok) throw new Error('Failed to add product');
 
-            setShowToast(true);
+            toast.success("Product added successfully!")
+
             setTimeout(() => {
-                setShowToast(false);
                 router.push('/products');
             }, 2000);
         } catch (error) {
             setError('Failed to add product. Please try again.');
+            toast.error("Failed to add product. Please try again.")
         } finally {
             setLoading(false);
         }
@@ -240,18 +241,6 @@ export default function AddProductPage() {
                         </Button>
                     </form>
                 </div>
-
-                {/* Success Toast */}
-                {showToast && (
-                    <div className="fixed bottom-6 right-6 bg-green-600 text-white px-6 py-4 rounded-xl shadow-2xl animate-in slide-in-from-bottom-5 duration-300">
-                        <div className="flex items-center gap-3">
-                            <div className="w-6 h-6 bg-white text-green-600 rounded-full flex items-center justify-center">
-                                ✓
-                            </div>
-                            <span className="font-medium">Product added successfully!</span>
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Button from '../../components/ui/Button';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 
 // API functions
 async function getProducts() {
@@ -40,15 +41,42 @@ function ProductCard({ product, onDelete, loadingId }) {
     const categoryData = { emoji: '📦', color: 'bg-gray-100 text-gray-600' };
 
     const handleDelete = async () => {
-        setIsDeleting(true);
-        try {
-            await onDelete(product._id);
-        } catch (error) {
-            console.error('Error deleting product:', error);
-        } finally {
-            setIsDeleting(false);
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        });
+
+        if (result.isConfirmed) {
+            setIsDeleting(true);
+            try {
+                await onDelete(product._id);
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Product has been deleted.",
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            } catch (error) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Failed to delete product.",
+                    icon: "error",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+                console.error('Error deleting product:', error);
+            } finally {
+                setIsDeleting(false);
+            }
         }
     };
+
 
     const handleImageError = () => {
         setImageError(true);
@@ -112,7 +140,7 @@ function ProductCard({ product, onDelete, loadingId }) {
                 {/* Actions */}
                 <div className="flex space-x-2">
                     <Button
-                        variant="secondary"
+                        variant="primary"
                         size="sm"
                         onClick={() => window.location.href = `/products/${product._id}`}
                         className="flex-1 text-xs sm:text-sm"

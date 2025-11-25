@@ -1,37 +1,41 @@
-'use client';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Button from '../../components/ui/Button';
-import Link from 'next/link';
+"use client";
+
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
+import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiLoader } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     const router = useRouter();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleCredentialsLogin = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
 
         try {
-            const result = await signIn('credentials', {
+            const res = await signIn("credentials", {
+                redirect: false,
                 email,
                 password,
-                redirect: false,
             });
 
-            if (result?.error) {
-                setError('Invalid email or password');
+            if (!res?.error) {
+                toast.success("Signed in successfully");
+                router.push("/");
             } else {
-                router.push('/');
-                router.refresh();
+                toast.error("Invalid credentials");
             }
         } catch (err) {
-            setError('An unexpected error occurred');
+            toast.error("Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -39,82 +43,144 @@ export default function LoginPage() {
 
     const handleGoogleLogin = async () => {
         try {
-            await signIn('google', { callbackUrl: '/' });
-        } catch (error) {
-            setError('Google sign-in failed');
+            setLoading(true);
+            toast.info("Redirecting to Google...");
+            await signIn("google", { callbackUrl: "/" });
+        } catch (err) {
+            toast.error("Google sign-in failed");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-md">
-            <h1 className="text-3xl font-bold text-center mb-8">Login</h1>
-
-            {error && (
-                <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-                    {error}
-                </div>
-            )}
-
-            <form onSubmit={handleCredentialsLogin} className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
-                        disabled={loading}
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium mb-2">Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
-                        disabled={loading}
-                    />
-                </div>
-
-                <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    className="w-full"
-                    disabled={loading}
-                >
-                    {loading ? 'Logging in...' : 'Login with Email'}
-                </Button>
-            </form>
-
-            <div className="my-6 text-center">
-                <div className="border-t border-gray-300 relative">
-                    <span className="bg-white px-3 absolute -top-3 left-1/2 transform -translate-x-1/2 text-gray-500">
-                        OR
-                    </span>
-                </div>
-            </div>
-
-            <Button
-                onClick={handleGoogleLogin}
-                variant="secondary"
-                size="lg"
-                className="w-full"
-                disabled={loading}
+        <div className="min-h-screen bg-gradient-to-r from-gray-900 via-blue-700 to-indigo-800 flex items-center justify-center p-6">
+            <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.995 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.45 }}
+                className="w-full max-w-md"
             >
-                Login with Google
-            </Button>
+                <div className="relative">
+                    <div className="absolute -inset-0.5 rounded-2xl blur-xl opacity-30 
+                    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
 
-            <p className="text-center mt-4 text-sm text-gray-600">
-                Dont have an account?{' '}
-                <Link href="/register" className="text-blue-600 hover:underline">
-                    Register here
-                </Link>
-            </p>
+                    <div className="relative bg-[#071026]/90 border border-[#162033] rounded-2xl shadow-2xl p-8 backdrop-blur-sm">
+                        {/* Header */}
+                        <div className="text-center mb-6">
+                            <div className="inline-flex items-center gap-3 justify-center">
+
+                                <div className="relative w-10 h-10 overflow-hidden rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-800 shadow-xl group-hover:shadow-blue-600/50 transition-all duration-500 group-hover:scale-105 flex items-center justify-center">
+                                    <span className="text-white font-black text-xl">G</span>
+                                    <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                                </div>
+
+                                <div className="text-left">
+                                    <h1 className="text-white text-2xl font-semibold">Welcome back</h1>
+                                    <p className="text-sm text-gray-300">Sign in to continue to GadgetVerse</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* form */}
+                        <form onSubmit={handleSubmit} className="space-y-5">
+                            {/* email */}
+                            <div>
+                                <label className="text-sm text-gray-300 mb-2 block">Email</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <FiMail className="w-5 h-5" />
+                                    </span>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        disabled={loading}
+                                        placeholder="you@company.com"
+                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* password */}
+                            <div>
+                                <label className="text-sm text-gray-300 mb-2 block">Password</label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <FiLock className="w-5 h-5" />
+                                    </span>
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        disabled={loading}
+                                        placeholder="Your secure password"
+                                        className="w-full pl-12 pr-12 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((s) => !s)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white transition"
+                                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                    >
+                                        {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* actions */}
+                            <div className="space-y-3">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full inline-flex items-center justify-center gap-3 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold shadow-lg hover:scale-[1.01] active:scale-99 transition-transform"
+                                >
+                                    {loading ? (
+                                        <>
+                                            <FiLoader className="w-5 h-5 animate-spin" />
+                                            Signing in...
+                                        </>
+                                    ) : (
+                                        'Sign in'
+                                    )}
+                                </button>
+
+                                <div className="text-center">
+                                    <Link href="/forgot" className="text-sm text-indigo-300 hover:underline">Forgot password?</Link>
+                                </div>
+                            </div>
+                        </form>
+
+                        {/* divider */}
+                        <div className="flex items-center my-6">
+                            <div className="flex-grow h-px bg-[#123045]" />
+                            <span className="px-3 text-sm text-gray-400">Or continue with</span>
+                            <div className="flex-grow h-px bg-[#123045]" />
+                        </div>
+
+                        {/* google */}
+                        <div>
+                            <button
+                                onClick={handleGoogleLogin}
+                                disabled={loading}
+                                className="w-full py-3 rounded-xl bg-[#0b1320] border border-[#163047] flex items-center justify-center gap-3 text-gray-100 hover:bg-[#0e1726] transition"
+                            >
+                                <FcGoogle className="w-6 h-6" />
+                                <span className="font-medium">Continue with Google</span>
+                            </button>
+                        </div>
+
+                        {/* footer */}
+                        <div className="mt-6 text-center text-gray-400 text-sm">
+                            Don’t have an account?{' '}
+                            <Link href="/register" className="text-indigo-300 font-medium hover:underline">Create one</Link>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
         </div>
     );
 }
