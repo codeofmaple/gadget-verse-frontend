@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Cpu, Headphones, ShieldCheck } from "lucide-react";
+import { Zap, TrendingUp, Clock, Cpu, Headphones, ShieldCheck } from "lucide-react";
 
 const container = {
     hidden: {},
@@ -18,19 +18,19 @@ const cardVariant = {
 
 const defaultFeatures = [
     {
-        title: "Honest Reviews",
-        description: "In-depth, hands-on testing so you know what performs in the real world.",
-        icon: <Headphones size={22} />,
+        title: "Verified Quality",
+        description: "In-depth, hands-on testing and community feedback ensure every product meets high standards.",
+        icon: <Zap size={22} />,
     },
     {
-        title: "Curated Deals",
-        description: "Hand-picked offers that save you time and money without the filler.",
-        icon: <Cpu size={22} />,
+        title: "Smart Pricing",
+        description: "Our proprietary deal tracker finds the best, most timely prices and discounts for you.",
+        icon: <TrendingUp size={22} />,
     },
     {
-        title: "Trusted Recommendations",
-        description: "Expert picks backed by data and real usage insights.",
-        icon: <ShieldCheck size={22} />,
+        title: "Future-Proof Tech",
+        description: "We focus on devices built to last, providing recommendations that stay relevant longer.",
+        icon: <Clock size={22} />,
     },
 ];
 
@@ -41,6 +41,7 @@ export default function FeaturesSection({ features = defaultFeatures }) {
             aria-labelledby="features-heading"
             style={{ overflow: "visible" }}
         >
+            <div className="absolute inset-0  -z-10 [mask-image:radial-gradient(ellipse_at_top_right,transparent_40%,white)]" />
 
             <div className="container mx-auto px-4 relative z-10">
                 <motion.h2
@@ -49,11 +50,21 @@ export default function FeaturesSection({ features = defaultFeatures }) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-extrabold text-center mb-16 leading-tight
-                     bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent z-20 relative"
+                    className="text-3xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center"
                 >
-                    Why Choose GadgetVerse?
+                    Built on Trust. Driven by Tech.
                 </motion.h2>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="text-center text-lg text-gray-500 max-w-2xl mx-auto mb-16"
+                >
+                    We’re more than a marketplace. We’re your trusted partner for high-quality, long-lasting gadgets.
+                </motion.p>
+
 
                 <motion.div
                     variants={container}
@@ -66,15 +77,16 @@ export default function FeaturesSection({ features = defaultFeatures }) {
                         <motion.div
                             key={index}
                             variants={cardVariant}
-                            className="group p-6 sm:p-8 rounded-2xl bg-white/60 shadow-md backdrop-blur-sm border border-white/60
-                         hover:shadow-2xl hover:scale-[1.03] transition-all duration-300"
+                            className="group p-6 sm:p-8 rounded-2xl  shadow-xl border border-gray-100 transition-all duration-300
+                            hover:shadow-2xl hover:border-blue-300 hover:scale-[1.02]"
                             role="article"
                             aria-labelledby={`feature-title-${index}`}
                         >
                             <div className="flex flex-col items-center text-center">
                                 <div
-                                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500
-                             flex items-center justify-center text-white text-2xl mb-4 sm:mb-5 shadow-lg"
+                                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl 
+                                    bg-gradient-to-br from-blue-600 to-indigo-700 
+                                    flex items-center justify-center text-white text-3xl mb-4 sm:mb-6 shadow-xl shadow-blue-500/30 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105"
                                     aria-hidden
                                 >
                                     {/* icon */}
@@ -83,12 +95,12 @@ export default function FeaturesSection({ features = defaultFeatures }) {
 
                                 <h3
                                     id={`feature-title-${index}`}
-                                    className="text-lg sm:text-xl font-semibold mb-2 text-gray-800"
+                                    className="text-xl sm:text-2xl font-bold mb-3 text-gray-900"
                                 >
                                     {feature.title}
                                 </h3>
 
-                                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                                <p className="text-base text-gray-600 leading-relaxed">
                                     {feature.description}
                                 </p>
                             </div>
@@ -96,8 +108,6 @@ export default function FeaturesSection({ features = defaultFeatures }) {
                     ))}
                 </motion.div>
             </div>
-
-
         </section>
     );
 }
