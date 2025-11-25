@@ -1,106 +1,114 @@
+'use client';
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function HeroSection() {
+
+    const featuredProduct = {
+        name: "Razer Blade 15",
+        description: "Experience professional gaming performance with the powerful and sleek Razer Blade 15.",
+        image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800&h=450&fit=crop",
+        slug: "razer-blade-15"
+    };
+
+    const productLink = `/products/${featuredProduct.slug}`;
+
     return (
-        <section className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white py-20 sm:py-28 overflow-hidden">
-            {/* subtle dark overlay for contrast */}
-            <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
+        <section className="relative bg-linear-to-br from-blue-700 via-indigo-700 to-purple-800 text-white py-28 md:py-32 overflow-hidden">
 
-            {/* decorative blurred shapes */}
-            <div className="absolute -right-32 -top-20 w-96 h-96 rounded-full bg-white/10 blur-3xl opacity-60 transform rotate-12" aria-hidden />
-            <div className="absolute -left-40 bottom-8 w-80 h-80 rounded-full bg-purple-400/10 blur-2xl opacity-50" aria-hidden />
+            <div className="absolute inset-0 bg-black/30 pointer-events-none"></div>
+            <div className="absolute -right-32 -top-20 w-96 h-96 rounded-full bg-white/10 blur-3xl opacity-50 transform rotate-12" aria-hidden />
+            <div className="absolute -left-40 bottom-0 w-80 h-80 rounded-full bg-purple-400/10 blur-3xl opacity-60" aria-hidden />
 
+            {/* Main Content Container */}
             <div className="container mx-auto px-4 relative z-10">
-                <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    {/* Left: copy */}
-                    <div className="text-center lg:text-left">
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4">
-                            Welcome to{' '}
-                            <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                    {/* Left: Copy & CTAs */}
+                    <div className="lg:col-span-7 text-center lg:text-left">
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6">
+                            Unleash Your Potential with{' '}
+                            <span className="bg-linear-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
                                 GadgetVerse
                             </span>
                         </h1>
-                        <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-6 max-w-2xl">
-                            Discover the latest tech gadgets and innovative electronics that will transform your digital lifestyle.
-                            Curated reviews, real-world testing, and hand-picked deals — all in one place.
+                        <p className="text-xl sm:text-2xl text-white/90 mb-10 max-w-2xl lg:max-w-none mx-auto lg:mx-0">
+                            The ultimate destination to discover, review, and buy the most cutting-edge tech gadgets and innovative electronics. Stay ahead of the curve.
                         </p>
 
-                        <div className="flex flex-col lg:flex-row items-center lg:justify-start gap-4">
+                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            {/* Primary CTA Button */}
                             <Link
                                 href="/products"
-                                className="inline-flex items-center justify-center rounded-2xl px-6 py-3 text-base font-semibold bg-white text-blue-600 shadow-xl transform transition duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30"
+                                className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-lg font-bold bg-white text-blue-700 shadow-2xl shadow-blue-500/50 transform transition duration-300 hover:scale-[1.03] hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-white/50 w-full sm:w-auto"
                             >
-                                🚀 Explore Products
+                                <Sparkles className="w-5 h-5 mr-3 fill-blue-500 text-blue-700" />
+                                Explore Gadgets
                             </Link>
 
-
+                            {/* Secondary CTA Button */}
                             <Link
                                 href="/about"
-                                className="inline-flex items-center justify-center rounded-2xl px-6 py-3 text-base font-medium border border-white/40 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition focus:outline-none focus:ring-4 focus:ring-white/20"
+                                className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-lg font-medium border border-white/40 bg-white/10 backdrop-blur-sm hover:bg-white/20 transition focus:outline-none focus:ring-4 focus:ring-white/20 w-full sm:w-auto"
                             >
-                                Learn More
+                                Learn About Our Mission
+                                <ArrowRight className="w-5 h-5 ml-2" />
                             </Link>
-
                         </div>
 
-                        {/* small feature badges */}
-                        <div className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
-                            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-sm">
-                                <strong className="font-semibold">New:</strong>
-                                Daily gadget picks
+                        {/* Small feature badges */}
+                        <div className="mt-12 flex flex-wrap gap-4 justify-center lg:justify-start">
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 text-sm font-medium border border-white/20">
+                                ⚡ Next-Gen Tech
                             </span>
-
-                            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-sm">
-                                Honest reviews
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 text-sm font-medium border border-white/20">
+                                📝 Curated Reviews
                             </span>
-
-                            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-sm">
-                                Curated deals
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 text-sm font-medium border border-white/20">
+                                🔥 Exclusive Deals
                             </span>
                         </div>
                     </div>
 
-                    {/* Right: productl */}
-                    <div className="flex justify-center lg:justify-end">
-                        <div className="relative hidden lg:block w-64 sm:w-72 md:w-80 lg:w-96">
-                            {/* glass card */}
-                            <div className="rounded-3xl p-6 bg-white/6 backdrop-blur-sm border border-white/6 shadow-2xl">
-                                <div className="flex flex-col items-center gap-4">
-                                    <div className="size-64 rounded-2xl bg-gradient-to-br from-white/10 to-white/6 flex items-center justify-center">
-                                        <Image
-                                            src={`https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&h=450&fit=crop`}
-                                            alt="img"
-                                            width={800}
-                                            height={450}
-                                            className=" object-cover aspect-square rounded-sm"
-                                        />
-                                    </div>
+                    {/* Right: Product Visual */}
+                    <div className="lg:col-span-5 flex justify-center lg:justify-end mt-12 lg:mt-0">
+                        <div className="relative w-80 md:w-96 transform hover:scale-[1.01] transition-transform duration-500 cursor-pointer">
+                            {/* Enhanced Glass Card */}
+                            <div className="rounded-3xl p-6 bg-white/10 backdrop-blur-lg border border-white/30 shadow-2xl shadow-black/40 hover:shadow-white/20 transition-shadow duration-300">
+                                <Link href={productLink} className="block">
+                                    <div className="flex flex-col items-center gap-6">
+                                        <div className="w-full aspect-video rounded-xl overflow-hidden shadow-xl border border-white/10 flex items-center justify-center">
 
-                                    <div className="text-center">
-                                        <h3 className="text-lg font-semibold">Featured: PlayStation 5</h3>
-                                        <p className="text-sm text-white/70">Ultra-High-Speed SSD · DualSense Wireless Controller Immersion · Powerful Graphics and 3D Audio</p>
+                                            {/* Product image */}
+                                            <Image
+                                                src={featuredProduct.image}
+                                                alt={featuredProduct.name}
+                                                width={1600}
+                                                height={900}
+                                                className="object-cover w-full h-full"
+                                                unoptimized
+                                            />
+                                        </div>
+
+                                        <div className="text-center w-full">
+                                            <h3 className="text-xl font-bold mb-1">{featuredProduct.name}</h3>
+                                            <p className="text-base text-white/80 max-w-sm mx-auto">{featuredProduct.description}</p>
+                                            <span className="mt-4 inline-block text-sm font-semibold text-yellow-300 hover:text-yellow-200 transition">
+                                                View Details &rarr;
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
-
-                            {/* soft glow under card */}
-                            <div className="absolute left-4 right-4 -bottom-6 h-6 rounded-md bg-gradient-to-r from-purple-400/30 to-blue-400/20 blur-lg opacity-60" aria-hidden />
+                            {/* Soft glow under card */}
+                            <div className="absolute inset-x-0 bottom-0 h-1/4 rounded-b-3xl bg-linear-to-t from-white/30 to-transparent blur-xl opacity-20" aria-hidden />
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* subtle animated wave at the bottom */}
-            <svg
-                className="absolute left-0 right-0 bottom-0 w-full"
-                viewBox="0 0 1440 120"
-                preserveAspectRatio="none"
-                aria-hidden
-            >
-                <path fill="rgba(255,255,255,0.03)" d="M0,80 C240,120 360,40 720,60 C1080,80 1200,20 1440,60 L1440 120 L0 120 Z" />
-            </svg>
         </section>
     );
 }
