@@ -81,7 +81,7 @@ export default function Navbar() {
                 <div className="flex justify-between items-center h-16">
 
                     {/* Logo Area */}
-                    <Link href="/" className="flex items-center space-x-2 group focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg">
+                    <Link href="/" className="flex items-center space-x-2 group  rounded-lg">
                         <div className="relative w-10 h-10 overflow-hidden rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-800 shadow-xl group-hover:shadow-blue-600/50 transition-all duration-500 group-hover:scale-105 flex items-center justify-center">
                             <span className="text-white font-black text-xl">G</span>
                             <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -114,7 +114,7 @@ export default function Navbar() {
                     <div className="hidden lg:flex items-center space-x-4">
                         {user ? (
                             <div className="relative group">
-                                <button className="flex items-center space-x-3 p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <button className="flex items-center space-x-3 p-2 rounded-full hover:bg-gray-100 transition-colors ">
                                     <div className="flex items-center space-x-2">
                                         <div className="text-right hidden xl:block">
                                             <p className="text-sm font-bold text-gray-800 leading-tight">{user.name || 'Account'}</p>
