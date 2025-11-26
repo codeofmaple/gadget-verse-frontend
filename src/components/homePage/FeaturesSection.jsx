@@ -50,7 +50,8 @@ export default function FeaturesSection({ features = defaultFeatures }) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center"
+                    className="text-3xl md:text-5xl font-extrabold mb-4
+                     bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center"
                 >
                     Built on Trust. Driven by Tech.
                 </motion.h2>

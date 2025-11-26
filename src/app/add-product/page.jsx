@@ -143,10 +143,11 @@ export default function AddProductPage() {
             <div className="container mx-auto px-4 max-w-2xl">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                    <h1 className="text-3xl md:text-5xl font-extrabold mb-4
+                     bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center">
                         Add New Product
                     </h1>
-                    <p className="text-gray-600">Add amazing products to your GadgetVerse store</p>
+                    <p className="text-center text-lg text-gray-500">Add amazing products to your GadgetVerse store</p>
                 </div>
 
                 {/* Product Form */}

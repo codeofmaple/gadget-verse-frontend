@@ -114,7 +114,9 @@ export default async function HomePage() {
             {/* 6. CTA BANNER */}
             <section className="pb-20">
                 <div className="container mx-auto px-4">
-                    <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-16 md:px-16 md:py-24 text-center shadow-2xl">
+                    <div className="relative rounded-[2.5rem] overflow-hidden 
+                    bg-gradient-to-r from-blue-600 to-purple-700 
+                    px-6 py-16 md:px-16 md:py-24 text-center shadow-2xl">
 
                         {/* circles */}
                         <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2" />

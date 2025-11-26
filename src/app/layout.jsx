@@ -6,6 +6,8 @@ import Footer from '../components/layout/Footer';
 import { AuthProvider } from '../contexts/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NavLoader from '../components/NavLoader';
+
 
 export default function RootLayout({ children }) {
   return (
@@ -13,6 +15,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen flex flex-col bg-gray-50">
         <AuthProvider>
           <Navbar />
+          <NavLoader />
           <main className="flex-grow">
             {children}
           </main>

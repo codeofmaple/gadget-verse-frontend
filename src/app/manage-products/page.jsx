@@ -357,12 +357,12 @@ export default function ManageProductsPage() {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8">
             <div className="container mx-auto px-4 max-w-7xl">
                 {/* Header */}
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+                <div className="flex flex-col md:text-left text-center lg:flex-row lg:items-center lg:justify-between mb-8">
                     <div className="mb-6 lg:mb-0">
                         <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent mb-3">
                             Manage Products
                         </h1>
-                        <p className="text-gray-600 text-lg">
+                        <p className="text-lg  md:text-left text-center text-gray-500">
                             View, manage, and organize your product catalog
                         </p>
                     </div>

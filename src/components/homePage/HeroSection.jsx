@@ -17,7 +17,11 @@ export default function HeroSection() {
     const productLink = `/products/${featuredProduct.slug}`;
 
     return (
-        <section className="relative bg-linear-to-br from-blue-700 via-indigo-700 to-purple-800 text-white py-28 md:py-32 overflow-hidden">
+        <section className="relative bg-linear-to-br from-blue-700 via-indigo-700 to-purple-800 text-white py-28 overflow-hidden">
+
+
+            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2" />
 
             <div className="absolute inset-0 bg-black/30 pointer-events-none"></div>
             <div className="absolute -right-32 -top-20 w-96 h-96 rounded-full bg-white/10 blur-3xl opacity-50 transform rotate-12" aria-hidden />

@@ -18,9 +18,63 @@ export default function RegisterPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    // inline validation state
+    const [errors, setErrors] = useState({});
+
+    // validators
+    const isValidEmail = (str) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+    };
+
+    const validateField = (field, value) => {
+        switch (field) {
+            case "name":
+                if (!value || value.trim() === "") return "Full name is required.";
+                if (value.trim().length < 3) return "Name must be at least 3 characters.";
+                return "";
+            case "email":
+                if (!value || value.trim() === "") return "Email is required.";
+                if (!isValidEmail(value.trim())) return "Please enter a valid email.";
+                return "";
+            case "password":
+                if (!value || value === "") return "Password is required.";
+                if (value.length < 6) return "Password must be at least 6 characters.";
+                return "";
+            default:
+                return "";
+        }
+    };
+
+    const validateAll = () => {
+        const newErrors = {};
+        const nameErr = validateField("name", name);
+        if (nameErr) newErrors.name = nameErr;
+        const emailErr = validateField("email", email);
+        if (emailErr) newErrors.email = emailErr;
+        const passErr = validateField("password", password);
+        if (passErr) newErrors.password = passErr;
+        return newErrors;
+    };
+
+    const handleBlur = (field, value) => {
+        const msg = validateField(field, value);
+        setErrors((prev) => ({ ...prev, [field]: msg }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+
+        const newErrors = validateAll();
+        setErrors(newErrors);
+        if (Object.keys(newErrors).length > 0) {
+            toast.error("Please fix the highlighted errors and try again.");
+            const first = Object.keys(newErrors)[0];
+            const el = document.querySelector(`[name="${first}"]`);
+            if (el) el.focus();
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -75,6 +129,10 @@ export default function RegisterPage() {
         }
     };
 
+    // error style
+    const inputClass = (hasError) =>
+        `w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border ${hasError ? "border-red-500" : "border-[#123045]"} text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`;
+
     return (
         <div className="min-h-screen bg-gradient-to-r from-gray-900 via-blue-700 to-indigo-800 flex items-center justify-center p-6">
             <motion.div
@@ -111,7 +169,7 @@ export default function RegisterPage() {
                         )}
 
                         {/* form */}
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                             {/* name */}
                             <div>
                                 <label className="text-sm text-gray-300 mb-2 block">Full name</label>
@@ -121,14 +179,30 @@ export default function RegisterPage() {
                                     </span>
                                     <input
                                         type="text"
+                                        name="name"
                                         value={name}
-                                        onChange={(e) => setName(e.target.value)}
+                                        onChange={(e) => {
+                                            setName(e.target.value);
+                                            // clear field error while typing
+                                            if (errors.name) {
+                                                const msg = validateField("name", e.target.value);
+                                                setErrors((prev) => ({ ...prev, name: msg }));
+                                            }
+                                        }}
+                                        onBlur={(e) => handleBlur("name", e.target.value)}
                                         required
                                         disabled={loading}
                                         placeholder="Your full name"
-                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                        className={inputClass(!!errors.name)}
+                                        aria-invalid={errors.name ? "true" : "false"}
+                                        aria-describedby={errors.name ? "name-error" : undefined}
                                     />
                                 </div>
+                                {errors.name && (
+                                    <p id="name-error" className="mt-1 text-sm text-red-400">
+                                        {errors.name}
+                                    </p>
+                                )}
                             </div>
 
                             {/* email */}
@@ -140,14 +214,29 @@ export default function RegisterPage() {
                                     </span>
                                     <input
                                         type="email"
+                                        name="email"
                                         value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                            if (errors.email) {
+                                                const msg = validateField("email", e.target.value);
+                                                setErrors((prev) => ({ ...prev, email: msg }));
+                                            }
+                                        }}
+                                        onBlur={(e) => handleBlur("email", e.target.value)}
                                         required
                                         disabled={loading}
                                         placeholder="you@company.com"
-                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                        className={inputClass(!!errors.email)}
+                                        aria-invalid={errors.email ? "true" : "false"}
+                                        aria-describedby={errors.email ? "email-error" : undefined}
                                     />
                                 </div>
+                                {errors.email && (
+                                    <p id="email-error" className="mt-1 text-sm text-red-400">
+                                        {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             {/* password */}
@@ -159,16 +248,33 @@ export default function RegisterPage() {
                                     </span>
                                     <input
                                         type="password"
+                                        name="password"
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value);
+                                            if (errors.password) {
+                                                const msg = validateField("password", e.target.value);
+                                                setErrors((prev) => ({ ...prev, password: msg }));
+                                            }
+                                        }}
+                                        onBlur={(e) => handleBlur("password", e.target.value)}
                                         required
                                         minLength={6}
                                         disabled={loading}
                                         placeholder="Create a strong password"
-                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#061426] border border-[#123045] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                                        className={inputClass(!!errors.password)}
+                                        aria-invalid={errors.password ? "true" : "false"}
+                                        aria-describedby={errors.password ? "password-error" : undefined}
                                     />
                                 </div>
-                                <p className="text-xs text-gray-400 mt-2">Password must be at least 6 characters</p>
+                                <p className="text-xs text-gray-400 mt-2">
+                                    Password must be at least 6 characters
+                                </p>
+                                {errors.password && (
+                                    <p id="password-error" className="mt-1 text-sm text-red-400">
+                                        {errors.password}
+                                    </p>
+                                )}
                             </div>
 
                             {/* actions */}
@@ -225,7 +331,7 @@ export default function RegisterPage() {
                         </div>
                     </div>
                 </div>
-            </motion.div >
-        </div >
+            </motion.div>
+        </div>
     );
 }
