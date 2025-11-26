@@ -5,10 +5,15 @@ application** built with **Next.js App Router**, featuring
 authentication, protected pages, product management, and polished UI
 throughout.
 
-🔗 **Live Website:** https://gadgetverse-gold.vercel.app/\
-🗄️ **Backend API:** https://gadget-verse-backend.vercel.app/\
-💻 **Frontend Repo:**
-https://github.com/codeofmaple/gadget-verse-frontend\
+🔗 **Live Website:** https://gadgetverse-gold.vercel.app
+
+
+🗄️ **Backend API:** https://gadget-verse-backend.vercel.app
+
+
+💻 **Frontend Repo:**https://github.com/codeofmaple/gadget-verse-frontend
+
+
 🛠️ **Backend Repo:** https://github.com/codeofmaple/gadget-verse-backend
 
 ------------------------------------------------------------------------
@@ -16,16 +21,16 @@ https://github.com/codeofmaple/gadget-verse-frontend\
 ## 📌 Project Overview
 
 **GadgetVerse** is a sleek gadget-focused mini e-commerce application
-built using **Next.js (App Router)** and **NextAuth.js**.\
+built using **Next.js (App Router)** and **NextAuth.js**.
 Users can browse tech products, view details, log in via Google or
 credentials, and securely access protected pages like **Add Product**
 and **Manage Products**.
 
 This project focuses on:
 
--   Clean UI & layout consistency\
--   Professional responsiveness\
--   Protected pages with authentication\
+-   Clean UI & layout consistency
+-   Professional responsiveness
+-   Protected pages with authentication
 -   Smooth UX interactions
 
 ------------------------------------------------------------------------
@@ -34,32 +39,32 @@ This project focuses on:
 
 ### **1. 🌐 Landing Page (7 Sections)**
 
-✔ Fully responsive & polished\
-✔ Sticky navbar with login/register\
+✔ Fully responsive & polished
+✔ Sticky navbar with login/register
 ✔ After login → user dropdown with: - Profile info - Add Product -
-Manage Products\
-✔ Hero section (headline, subtitle, CTA)\
-✔ 4+ themed sections (features, items, testimonials, etc.)\
-✔ Uniform cards with hover states\
+Manage Products
+✔ Hero section (headline, subtitle, CTA)
+✔ 4+ themed sections (features, items, testimonials, etc.)
+✔ Uniform cards with hover states
 ✔ Modern footer
 
 ------------------------------------------------------------------------
 
 ### **2. 🔐 Authentication (NextAuth.js)**
 
--   Google login\
--   Email/password login\
--   Redirect to homepage after login\
+-   Google login
+-   Email/password login
+-   Redirect to homepage after login
 -   Protected routes enforced in server/client
 
 ------------------------------------------------------------------------
 
 ### **3. 🛒 Product List Page**
 
--   Page title + description\
--   Search bar\
--   Optional category UI\
--   Grid of 6+ product cards\
+-   Page title + description
+-   Search bar
+-   Optional category UI
+-   Grid of 6+ product cards
 -   Card includes:
     -   Image
     -   Title
@@ -71,10 +76,10 @@ Manage Products\
 
 ### **4. 📄 Product Details Page**
 
--   Large banner/product image\
--   Title + full description\
--   Meta info (price/date)\
--   Back button\
+-   Large banner/product image
+-   Title + full description
+-   Meta info (price/date)
+-   Back button
 -   Clean layout
 
 ------------------------------------------------------------------------
@@ -85,30 +90,30 @@ Only logged-in users can access.
 
 Includes form fields:
 
--   Title\
--   Short description\
--   Full description\
--   Price/date/priority\
+-   Title
+-   Short description
+-   Full description
+-   Price/date/priority
 -   Image URL (optional)
 
-✔ On submit → Toast message\
+✔ On submit → Toast message
 ✔ Redirect or success feedback
 
 ------------------------------------------------------------------------
 
 ### **6. 🗂️ Manage Products (Protected Page)**
 
--   Grid/table layout\
--   View & Delete actions\
+-   Grid/table layout
+-   View & Delete actions
 -   Clean, responsive UI
 
 ------------------------------------------------------------------------
 
 ### **7. 🎨 UI/UX & Design Consistency**
 
--   Smooth animations (Framer Motion)\
--   Hover & focus states\
--   Mobile/tablet/desktop optimized\
+-   Smooth animations (Framer Motion)
+-   Hover & focus states
+-   Mobile/tablet/desktop optimized
 -   Reusable components (Cards, Buttons, Loaders)
 
 ------------------------------------------------------------------------
@@ -128,8 +133,8 @@ Includes form fields:
 
 ### **Backend**
 
--   Node.js / Express\
--   Hosted on Vercel\
+-   Node.js / Express
+-   Hosted on Vercel
 -   REST API for product management
 
 ------------------------------------------------------------------------
@@ -220,8 +225,8 @@ App runs at:
 
 This project is fully compatible with:
 
--   ✔ Vercel\
--   ✔ Netlify (SSR setup needed)\
+-   ✔ Vercel
+-   ✔ Netlify (SSR setup needed)
 -   ✔ Any Node hosting
 
 Make sure environment variables are configured correctly.
@@ -244,7 +249,7 @@ Make sure environment variables are configured correctly.
 
 ## 👨‍💻 Author / Credits
 
-**Developer:** CodeOfMaple\
+**Developer:** CodeOfMaple
 GitHub: https://github.com/codeofmaple
 
 ------------------------------------------------------------------------
