@@ -140,6 +140,9 @@ export default function AddProductPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+
+            <title>Add Products | GadgetVerse</title>
+
             <div className="container mx-auto px-4 max-w-2xl">
                 {/* Header */}
                 <div className="text-center mb-8">

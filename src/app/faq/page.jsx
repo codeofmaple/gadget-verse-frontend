@@ -41,6 +41,9 @@ export default function FAQPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-gray-900 via-blue-700 to-indigo-800 p-6 flex flex-col items-center">
+
+            <title>FAQ | GadgetVerse</title>
+
             {/* Header */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

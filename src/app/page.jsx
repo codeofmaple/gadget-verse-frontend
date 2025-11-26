@@ -40,6 +40,8 @@ export default async function HomePage() {
     return (
         <div className="bg-gray-50/50 overflow-hidden space-y-20">
 
+            <title>Home | GadgetVerse</title>
+
             {/* 1. HERO */}
             <div className="relative">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">

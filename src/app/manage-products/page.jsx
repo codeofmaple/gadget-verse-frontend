@@ -85,6 +85,9 @@ function ProductCard({ product, onDelete, loadingId }) {
     return (
         <div className="group bg-white rounded-xl border border-gray-200 hover:border-blue-300 transition-all duration-300 hover:shadow-lg overflow-hidden">
             {/* Product Image */}
+
+            <title>Manage Products | GadgetVerse</title>
+
             <div className="relative aspect-video bg-gray-100 overflow-hidden">
                 {product.image && !imageError ? (
                     <Image

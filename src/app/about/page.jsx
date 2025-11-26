@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 export default function AboutPage() {
     return (
         <div className="min-h-screen bg-gradient-to-r from-gray-900 via-blue-700 to-indigo-800 p-6 flex flex-col items-center">
+
+            <title>About | GadgetVerse</title>
+
             {/* Hero Section */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

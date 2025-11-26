@@ -17,7 +17,6 @@ export default function SupportPage() {
         setLoading(true);
 
         try {
-            // Replace with your actual backend API
             const res = await fetch("https://gadget-verse-backend.vercel.app/api/support", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -39,6 +38,9 @@ export default function SupportPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-gray-900 via-blue-700 to-indigo-800 p-6 flex flex-col items-center">
+
+            <title>Support | GadgetVerse</title>
+
             {/* Header */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
