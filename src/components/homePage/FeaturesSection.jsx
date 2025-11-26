@@ -37,7 +37,7 @@ const defaultFeatures = [
 export default function FeaturesSection({ features = defaultFeatures }) {
     return (
         <section
-            className="relative bg-transparent"
+            className="relative "
             aria-labelledby="features-heading"
             style={{ overflow: "visible" }}
         >
@@ -72,13 +72,13 @@ export default function FeaturesSection({ features = defaultFeatures }) {
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true, amount: 0.2 }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 container px-4 mx-auto"
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 container px-4 mx-auto "
                 >
                     {features.map((feature, index) => (
                         <motion.div
                             key={index}
                             variants={cardVariant}
-                            className="group p-6 sm:p-8 rounded-2xl  shadow-xl border border-gray-100 transition-all duration-300
+                            className="group p-6 sm:p-8 rounded-2xl  shadow-xl border border-gray-100 bg-white transition-all duration-300
                             hover:shadow-2xl hover:border-blue-300 hover:scale-[1.02]"
                             role="article"
                             aria-labelledby={`feature-title-${index}`}

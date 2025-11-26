@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import CardContainer from "@/components/ui/CardContainer";
@@ -53,7 +53,7 @@ export default function ProductsPage() {
     }, [category, search]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-10">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10">
 
             <title>All Products | GadgetVerse</title>
 
@@ -61,27 +61,29 @@ export default function ProductsPage() {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold 
-                    bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center
-                    mb-3">
+                        bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center mb-3
+                        dark:from-gray-100 dark:via-blue-400 dark:to-purple-400">
                         All Products
                     </h1>
-                    <p className="text-gray-600 text-lg">Discover our collection of tech innovations</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-lg">
+                        Discover our collection of tech innovations
+                    </p>
                 </div>
 
                 {/* Search & Filter */}
-                <div className="bg-white rounded-2xl p-5 md:p-6 border border-gray-200 mb-6">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 md:p-6 border border-gray-200 dark:border-gray-700 mb-6">
                     <div className="flex flex-col md:flex-row gap-4">
                         <input
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search products..."
-                            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         />
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="w-full md:w-56 px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition"
+                            className="w-full md:w-56 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 transition"
                         >
                             {["all", "smartphone", "laptop", "tablet", "Audio", "Wearables", "Gaming", "Storage", "Video", "Accessories"].map((c) => (
                                 <option value={c} key={c}>
@@ -94,7 +96,7 @@ export default function ProductsPage() {
 
                 {/* Error */}
                 {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-red-700 text-center">
+                    <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6 text-red-700 dark:text-red-300 text-center">
                         ⚠️ {error}
                     </div>
                 )}
@@ -103,12 +105,12 @@ export default function ProductsPage() {
                 {loading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {Array.from({ length: 6 }).map((_, i) => (
-                            <div key={i} className="animate-pulse bg-white rounded-2xl p-6 h-72" />
+                            <div key={i} className="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 h-72" />
                         ))}
                     </div>
                 ) : (
                     <>
-                        <div className="mb-4 text-gray-600">
+                        <div className="mb-4 text-gray-700 dark:text-gray-300">
                             Showing {products.length} product{products.length !== 1 ? "s" : ""}
                             {search && ` for "${search}"`}
                             {category !== "all" && ` in ${category}`}

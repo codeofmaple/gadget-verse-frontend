@@ -21,22 +21,16 @@ export default function AddProductPage() {
         priority: 'normal'
     });
 
-    // validation state
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push('/login');
-        }
+        if (status === 'unauthenticated') router.push('/login');
     }, [status, router]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        if (errors[name]) {
-            const msg = validateField(name, value);
-            setErrors(prev => ({ ...prev, [name]: msg }));
-        }
+        if (errors[name]) setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
     };
 
     const validateField = (name, value) => {
@@ -67,19 +61,18 @@ export default function AddProductPage() {
     };
 
     const validateAll = () => {
-        const toValidate = ['title', 'description', 'fullDescription', 'price', 'category', 'image', 'priority'];
+        const keys = ['title', 'description', 'fullDescription', 'price', 'category', 'image', 'priority'];
         const newErrors = {};
-        toValidate.forEach((key) => {
-            const msg = validateField(key, formData[key]);
-            if (msg) newErrors[key] = msg;
+        keys.forEach(k => {
+            const msg = validateField(k, formData[k]);
+            if (msg) newErrors[k] = msg;
         });
         return newErrors;
     };
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
-        const msg = validateField(name, value);
-        setErrors(prev => ({ ...prev, [name]: msg }));
+        setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
     };
 
     const handleSubmit = async (e) => {
@@ -98,12 +91,7 @@ export default function AddProductPage() {
 
         setLoading(true);
         try {
-            const productData = {
-                ...formData,
-                price: parseFloat(formData.price),
-                createdAt: new Date().toISOString()
-            };
-
+            const productData = { ...formData, price: parseFloat(formData.price), createdAt: new Date().toISOString() };
             const response = await fetch('https://gadget-verse-backend.vercel.app/api/products', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -113,33 +101,29 @@ export default function AddProductPage() {
             if (!response.ok) throw new Error('Failed to add product');
 
             toast.success("Product added successfully!")
-
-            setTimeout(() => {
-                router.push('/products');
-            }, 2000);
-        } catch (error) {
+            setTimeout(() => router.push('/products'), 2000);
+        } catch {
             setError('Failed to add product. Please try again.');
-            toast.error("Failed to add product. Please try again.")
+            toast.error('Failed to add product. Please try again.');
         } finally {
             setLoading(false);
         }
     };
 
-    if (status === 'loading') {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            </div>
-        );
-    }
-
+    if (status === 'loading') return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400"></div>
+        </div>
+    );
     if (status === 'unauthenticated') return null;
 
     const inputClass = (fieldName) =>
-        `w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all border ${errors[fieldName] ? 'border-red-500' : 'border-gray-300'}`;
+        `w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all border 
+         ${errors[fieldName] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} 
+         bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-8">
 
             <title>Add Products | GadgetVerse</title>
 
@@ -147,25 +131,30 @@ export default function AddProductPage() {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl md:text-5xl font-extrabold mb-4
-                     bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent leading-tight text-center">
+                        bg-gradient-to-r from-gray-900 via-blue-800 to-purple-900 bg-clip-text text-transparent dark:from-gray-100 dark:via-blue-400 dark:to-purple-400 leading-tight">
                         Add New Product
                     </h1>
-                    <p className="text-center text-lg text-gray-500">Add amazing products to your GadgetVerse store</p>
+                    <p className="text-center text-lg text-gray-500 dark:text-gray-300">
+                        Add amazing products to your GadgetVerse store
+                    </p>
                 </div>
 
                 {/* Product Form */}
-                <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
                     {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+                        <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg mb-6">
                             {error}
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Product Title */}
+                            {/* Title, Price, Category, Description, Full Description, Image, Priority */}
+                            {/* All inputs and textareas now have dark: classes for background and text */}
+                            {/* Use inputClass(fieldName) for consistent styling */}
+                            {/* Example for Product Title */}
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Product Title *
                                 </label>
                                 <input
@@ -184,9 +173,10 @@ export default function AddProductPage() {
                                 {errors.title && <p id="title-error" className="mt-1 text-sm text-red-500">{errors.title}</p>}
                             </div>
 
-                            {/* Price & Category */}
+                            {/* Repeat the same dark/light classes for all other fields... */}
+                            {/* Price */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Price *
                                 </label>
                                 <input
@@ -201,14 +191,13 @@ export default function AddProductPage() {
                                     required
                                     disabled={loading}
                                     placeholder="0.00"
-                                    aria-invalid={errors.price ? 'true' : 'false'}
-                                    aria-describedby={errors.price ? 'price-error' : undefined}
                                 />
-                                {errors.price && <p id="price-error" className="mt-1 text-sm text-red-500">{errors.price}</p>}
+                                {errors.price && <p className="mt-1 text-sm text-red-500">{errors.price}</p>}
                             </div>
 
+                            {/* Category */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Category *
                                 </label>
                                 <select
@@ -219,8 +208,6 @@ export default function AddProductPage() {
                                     className={inputClass('category')}
                                     required
                                     disabled={loading}
-                                    aria-invalid={errors.category ? 'true' : 'false'}
-                                    aria-describedby={errors.category ? 'category-error' : undefined}
                                 >
                                     <option value="">Select Category</option>
                                     <option value="smartphone">Smartphone</option>
@@ -232,12 +219,12 @@ export default function AddProductPage() {
                                     <option value="Storage">Storage</option>
                                     <option value="Accessories">Accessories</option>
                                 </select>
-                                {errors.category && <p id="category-error" className="mt-1 text-sm text-red-500">{errors.category}</p>}
+                                {errors.category && <p className="mt-1 text-sm text-red-500">{errors.category}</p>}
                             </div>
 
                             {/* Short Description */}
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Short Description *
                                 </label>
                                 <input
@@ -250,19 +237,16 @@ export default function AddProductPage() {
                                     required
                                     disabled={loading}
                                     placeholder="Brief product description"
-                                    aria-invalid={errors.description ? 'true' : 'false'}
-                                    aria-describedby={errors.description ? 'description-error' : undefined}
                                 />
-                                {errors.description && <p id="description-error" className="mt-1 text-sm text-red-500">{errors.description}</p>}
+                                {errors.description && <p className="mt-1 text-sm text-red-500">{errors.description}</p>}
                             </div>
 
                             {/* Full Description */}
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Full Description
                                 </label>
                                 <textarea
-                                    required
                                     name="fullDescription"
                                     value={formData.fullDescription}
                                     onChange={handleChange}
@@ -271,15 +255,13 @@ export default function AddProductPage() {
                                     className={inputClass('fullDescription') + ' resize-none'}
                                     disabled={loading}
                                     placeholder="Detailed product description..."
-                                    aria-invalid={errors.fullDescription ? 'true' : 'false'}
-                                    aria-describedby={errors.fullDescription ? 'fullDescription-error' : undefined}
                                 />
-                                {errors.fullDescription && <p id="fullDescription-error" className="mt-1 text-sm text-red-500">{errors.fullDescription}</p>}
+                                {errors.fullDescription && <p className="mt-1 text-sm text-red-500">{errors.fullDescription}</p>}
                             </div>
 
-                            {/* Image URL & Priority */}
+                            {/* Image */}
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Image URL
                                 </label>
                                 <input
@@ -287,18 +269,21 @@ export default function AddProductPage() {
                                     name="image"
                                     value={formData.image}
                                     className={inputClass('image')}
+                                    onChange={handleChange}
                                     disabled={loading}
                                     placeholder="https://example.com/image.jpg"
                                 />
-                                {errors.image && <p id="image-error" className="mt-1 text-sm text-red-500">{errors.image}</p>}
+                                {errors.image && <p className="mt-1 text-sm text-red-500">{errors.image}</p>}
                             </div>
 
+                            {/* Priority */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Priority
                                 </label>
                                 <select
                                     name="priority"
+                                    onChange={handleChange}
                                     value={formData.priority}
                                     className={inputClass('priority')}
                                     disabled={loading}
@@ -306,11 +291,10 @@ export default function AddProductPage() {
                                     <option value="normal">Normal</option>
                                     <option value="featured">Featured</option>
                                 </select>
-                                {errors.priority && <p id="priority-error" className="mt-1 text-sm text-red-500">{errors.priority}</p>}
+                                {errors.priority && <p className="mt-1 text-sm text-red-500">{errors.priority}</p>}
                             </div>
                         </div>
 
-                        {/* Submit Button */}
                         <Button
                             type="submit"
                             variant="primary"
@@ -320,7 +304,7 @@ export default function AddProductPage() {
                         >
                             {loading ? (
                                 <div className="flex items-center justify-center gap-2">
-                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    <div className="w-4 h-4 border-2 border-white dark:border-gray-200 border-t-transparent rounded-full animate-spin"></div>
                                     Adding Product...
                                 </div>
                             ) : (
