@@ -235,15 +235,15 @@ Make sure environment variables are configured correctly.
 
 ## 📑 Route Summary
 
-  Route                Type        Description
-  -------------------- ----------- -------------------------------
-  `/`                  Public      Landing page
-  `/login`             Public      Login with Google/Credentials
-  `/register`          Public      Register page
-  `/products`          Public      All products list
-  `/products/[id]`     Public      Product details
-  `/add-product`       Protected   Add new product
-  `/manage-products`   Protected   Manage product list
+| Route | Type | Description |
+|-------|------|-------------|
+| `/` | Public | Landing page |
+| `/login` | Public | Login with Google/Credentials |
+| `/register` | Public | Register page |
+| `/products` | Public | All products list |
+| `/products/[id]` | Public | Product details |
+| `/add-product` | Protected | Add new product |
+| `/manage-products` | Protected | Manage product list |
 
 ------------------------------------------------------------------------
 
