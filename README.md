@@ -43,7 +43,8 @@ This project focuses on:
 ✔ After login → user dropdown with:  
   - Profile info  
   - Add Product  
-  - Manage Products  
+  - Manage Products
+
 ✔ Hero section (headline, subtitle, CTA)  
 ✔ 4+ themed sections (features, items, testimonials, etc.)  
 ✔ Uniform cards with hover states  
