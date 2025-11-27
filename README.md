@@ -36,16 +36,17 @@ This project focuses on:
 ------------------------------------------------------------------------
 
 ## 🧱 Features Breakdown
-
 ### **1. 🌐 Landing Page (7 Sections)**
 
-✔ Fully responsive & polished
-✔ Sticky navbar with login/register
-✔ After login → user dropdown with: - Profile info - Add Product -
-Manage Products
-✔ Hero section (headline, subtitle, CTA)
-✔ 4+ themed sections (features, items, testimonials, etc.)
-✔ Uniform cards with hover states
+✔ Fully responsive & polished  
+✔ Sticky navbar with login/register  
+✔ After login → user dropdown with:  
+  - Profile info  
+  - Add Product  
+  - Manage Products  
+✔ Hero section (headline, subtitle, CTA)  
+✔ 4+ themed sections (features, items, testimonials, etc.)  
+✔ Uniform cards with hover states  
 ✔ Modern footer
 
 ------------------------------------------------------------------------
