@@ -141,17 +141,17 @@ Includes form fields:
 
 ## 📦 Dependencies Used
 
-  Package                 Purpose
-  ----------------------- ---------------------
-  `next`                  Core framework
-  `next-auth`             Authentication
-  `react` / `react-dom`   UI
-  `tailwindcss`           Styling
-  `framer-motion`         Animations
-  `react-icons`           Icons
-  `lucide-react`          Icon set
-  `sweetalert2`           Interactive alerts
-  `react-toastify`        Toast notifications
+| Package | Purpose |
+|---------|---------|
+| `next` | Core framework |
+| `next-auth` | Authentication |
+| `react` / `react-dom` | UI |
+| `tailwindcss` | Styling |
+| `framer-motion` | Animations |
+| `react-icons` | Icons |
+| `lucide-react` | Icon set |
+| `sweetalert2` | Interactive alerts |
+| `react-toastify` | Toast notifications |
 
 ------------------------------------------------------------------------
 
